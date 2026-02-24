@@ -11,11 +11,15 @@ public class PlayerController : MonoBehaviour
  private float movementX;
  private float movementY;
 
+ public float jumpForce = 20;
+
  public float speed = 0;
 
  public TextMeshProUGUI countText;
 
  public GameObject winTextObject;
+
+ private bool IsGrounded;
 
  void Start()
     {
@@ -44,6 +48,15 @@ public class PlayerController : MonoBehaviour
     }
 
  
+void OnJump(InputValue jumpValue)
+    {
+        if (jumpValue.isPressed && IsGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+    }
+ 
+
  void OnTriggerEnter(Collider other) 
     {
  if (other.gameObject.CompareTag("PickUp")) 
@@ -64,7 +77,7 @@ public class PlayerController : MonoBehaviour
  if (count >= 13)
         {
             winTextObject.SetActive(true);
-
+    
             Destroy(GameObject.FindGameObjectWithTag("Enemy"));
         }
     }
@@ -79,8 +92,19 @@ private void OnCollisionEnter(Collision collision)
         winTextObject.GetComponent<TextMeshProUGUI>().text = "you lose ha u suck";
  
     }
+    if (collision.gameObject.CompareTag("Ground"))
+        {
+             IsGrounded = true;
+        }
 
 }
 
+private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            IsGrounded = false;
+        }
+    }
 
 }
