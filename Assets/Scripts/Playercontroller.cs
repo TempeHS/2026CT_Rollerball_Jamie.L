@@ -112,7 +112,7 @@ private void OnCollisionEnter(Collision collision)
         {
             Destroy(GameObject.FindGameObjectWithTag("Player"));
             winTextObject.SetActive(true);
-             winTextObject.GetComponent<TextMeshProUGUI>().text = "you lose ha u suck";
+             winTextObject.GetComponent<TextMeshProUGUI>().text = "you lose haha";
         }
 }
 
