@@ -29,6 +29,10 @@ public TextMeshProUGUI LivesText;
 
  private bool IsGrounded;
 
+ public int pity;
+
+ public int best;
+
  void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -42,6 +46,10 @@ public TextMeshProUGUI LivesText;
         SetLivesText();
 
         winTextObject.SetActive(false);
+
+        pity = 0;
+
+        best = 0;
     }
  
  void OnMove(InputValue movementValue)
@@ -84,7 +92,24 @@ if (other.gameObject.CompareTag("SpeedPickUp"))
             other.gameObject.SetActive(false);
             speed = speed+1;
         }
+if (other.gameObject.CompareTag("RandomPickup"))
+        {
+            other.gameObject.SetActive(false);
+            pity = pity+1;
+        }
+if (pity == 5)
+        {
+            best = best+1;
+        }
+if (best == 1)
+        {
+            jumpForce = jumpForce+10;
+            pity = 0;
+            best = 0;
+        }
     }
+
+
 
  void SetCountText() 
     {
@@ -119,6 +144,7 @@ private void OnCollisionEnter(Collision collision)
             winTextObject.SetActive(true);
              winTextObject.GetComponent<TextMeshProUGUI>().text = "you lose haha";
         }
+
 }
 
 private void OnCollisionExit(Collision collision)
