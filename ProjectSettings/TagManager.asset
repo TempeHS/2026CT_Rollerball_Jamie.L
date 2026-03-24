@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - SpeedPickUp
   - RandomPickup
+  - gatcha
   layers:
   - Default
   - TransparentFX
