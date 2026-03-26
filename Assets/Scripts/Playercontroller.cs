@@ -32,7 +32,9 @@ public TextMeshProUGUI LivesText;
  public int pity;
 
  public int best;
-
+public TextMeshProUGUI RewardText;
+public string[] rewards = { "Light Cone", "Mini Herta", "FIREFLY" };
+public int luck = 0;
  void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -60,6 +62,21 @@ public TextMeshProUGUI LivesText;
         movementY = movementVector.y; 
     }
 
+public string RollGacha()
+    {
+        int LightConeChance = 70 - luck;
+        int MiniHertaChance = 25 + (luck / 2);
+        int FIREFLYChance = 5 + (luck / 2);
+
+        int roll = Random.Range(1, 101);
+
+        if (roll <= FIREFLYChance)
+            return rewards[2];
+        else if (roll <= FIREFLYChance + MiniHertaChance)
+            return rewards[1];
+        else
+            return rewards[0];
+    }
  private void FixedUpdate() 
     {
         Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
@@ -107,6 +124,13 @@ if (best == 1)
             pity = 0;
             best = 0;
         }
+if (other.gameObject.CompareTag("gatcha"))
+    {
+        string result = RollGacha();
+        if (RewardText != null)
+        RewardText.text = "You got: " + result;
+        luck = luck +1;
+    }
     }
 
 
@@ -144,6 +168,7 @@ private void OnCollisionEnter(Collision collision)
             winTextObject.SetActive(true);
              winTextObject.GetComponent<TextMeshProUGUI>().text = "you lose haha";
         }
+
 
 }
 

@@ -517,7 +517,6 @@ GameObject:
   - component: {fileID: 198892308}
   - component: {fileID: 198892307}
   - component: {fileID: 198892306}
-  - component: {fileID: 198892305}
   m_Layer: 0
   m_Name: gatcha
   m_TagString: gatcha
@@ -525,24 +524,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &198892305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198892304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c657a267ff2e6347abe90b7ecfdf765, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rewards:
-  - threestar
-  - 4fourstar
-  - fivestar
-  luck: 0
-  RewardText: {fileID: 0}
 --- !u!65 &198892306
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -558,7 +539,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -3552,6 +3533,12 @@ MonoBehaviour:
   winTextObject: {fileID: 1437025136}
   pity: 0
   best: 0
+  RewardText: {fileID: 1206946119}
+  rewards:
+  - Light Cone
+  - Mini Herta
+  - FIREFLY
+  luck: -63
 --- !u!114 &998405301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3950,7 +3937,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 423, y: 228}
+  m_AnchoredPosition: {x: 5, y: 25}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1206946119
@@ -3973,7 +3960,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: 'Gatcha Result:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
