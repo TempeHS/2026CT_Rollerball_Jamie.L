@@ -129,7 +129,6 @@ if (other.gameObject.CompareTag("gatcha"))
         string result = RollGacha();
         if (RewardText != null)
         RewardText.text = "You got: " + result;
-        luck = luck +1;
     }
     }
 
