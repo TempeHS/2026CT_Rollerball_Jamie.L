@@ -4,6 +4,7 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    private int gatchaCount = 0;
  private Rigidbody rb; 
 
  private int count;
@@ -31,6 +32,8 @@ public TextMeshProUGUI LivesText;
 
  public int pity;
 
+private bool inGatchaZone = false;
+
  public int best;
 public TextMeshProUGUI RewardText;
 public string[] rewards = { "Light Cone", "Mini Herta", "FIREFLY" };
@@ -52,6 +55,8 @@ public int luck = 0;
         pity = 0;
 
         best = 0;
+
+
     }
  
  void OnMove(InputValue movementValue)
@@ -62,13 +67,14 @@ public int luck = 0;
         movementY = movementVector.y; 
     }
 
-public string RollGacha()
+    public string RollGacha()
     {
-        int LightConeChance = 70 - luck;
+        int LightConeChance = 50 - luck;
         int MiniHertaChance = 25 + (luck / 2);
-        int FIREFLYChance = 5 + (luck / 2);
+        int FIREFLYChance = 25 + (luck / 2);
 
         int roll = Random.Range(1, 101);
+        Debug.Log("Gatcha roll: " + roll);
 
         if (roll <= FIREFLYChance)
             return rewards[2];
@@ -96,43 +102,43 @@ void OnJump(InputValue jumpValue)
 
  void OnTriggerEnter(Collider other) 
     {
- if (other.gameObject.CompareTag("PickUp")) 
+        if (other.gameObject.CompareTag("PickUp"))
         {
             other.gameObject.SetActive(false);
-
             count = count + 1;
-
             SetCountText();
         }
-if (other.gameObject.CompareTag("SpeedPickUp"))
+        if (other.gameObject.CompareTag("SpeedPickUp"))
         {
             other.gameObject.SetActive(false);
-            speed = speed+1;
+            speed = speed + 1;
         }
-if (other.gameObject.CompareTag("RandomPickup"))
+        if (other.gameObject.CompareTag("RandomPickup"))
         {
             other.gameObject.SetActive(false);
-            pity = pity+1;
+            pity = pity + 1;
         }
-if (pity == 5)
+        if (pity == 5)
         {
-            best = best+1;
+            best = best + 1;
         }
-if (best == 1)
+        if (best == 1)
         {
-            jumpForce = jumpForce+10;
+            jumpForce = jumpForce + 10;
             pity = 0;
             best = 0;
         }
-if (other.gameObject.CompareTag("gatcha"))
-    {
-        string result = RollGacha();
-        if (RewardText != null)
-        RewardText.text = "You got: " + result;
-    }
+        if (other.gameObject.CompareTag("gatcha"))
+        {
+            inGatchaZone = true;
+            Debug.Log("Entered gatcha zone");
+        }
     }
 
-
+void OnTriggerStay(Collider other)
+{
+    // No action needed here for gatcha
+}
 
  void SetCountText() 
     {
@@ -182,10 +188,29 @@ private void OnCollisionExit(Collision collision)
     {
         LivesText.text = "Lives: " + lives.ToString();
     }
-
- void update ()
+void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("gatcha"))
+        {
+            inGatchaZone = false;
+            Debug.Log("Exited gatcha zone");
+        }
+    }
+    void Update()
     {
         if (hitCooldown > 0f)
-        hitCooldown -=Time.deltaTime;
+            hitCooldown -= Time.deltaTime;
+
+        Debug.Log($"Update running, inGatchaZone: {inGatchaZone}");
+
+        if (inGatchaZone && (
+            (Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame)
+            || Input.GetKeyDown(KeyCode.E)))
+        {
+            Debug.Log("E pressed in gatcha zone");
+            string result = RollGacha();
+            gatchaCount++;
+            RewardText.text = $"You got: {result} ({gatchaCount})";
+        }
     }
 }
